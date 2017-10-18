@@ -3,7 +3,7 @@
 sudo apt-get update && apt-get -y upgrade
 
 echo "install dependencies..."
-sudo apt-get install -y apache2 php7.0-mcrypt php7.0-gd php7.0-mbstring php7.0-cli php7.0-xml
+sudo apt-get install -y apache2 mariadb-client mariadb-server php7.0-mcrypt php7.0-gd php7.0-mbstring php7.0-cli php7.0-xml
 
 echo "install composer..."
 curl -sS https://getcomposer.org/installer | php

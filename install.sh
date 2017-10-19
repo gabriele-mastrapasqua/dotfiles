@@ -2,7 +2,7 @@
 
 echo "installing dev dependecies..."
 sudo apt-get update && apt-get -y upgrade
-sudo apt-get -y install aptitude git python3-dev python3-pip silversearcher-ag vim emacs build-essentials htop glances 
+sudo apt-get -y install aptitude nginx git python3-dev python3-pip silversearcher-ag vim emacs build-essentials htop glances 
 
 # set git local account
 git config --global user.email  "gabriele.mastrapasqua@gmail.com"

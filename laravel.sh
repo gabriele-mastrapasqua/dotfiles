@@ -5,6 +5,11 @@ sudo apt-get update && apt-get -y upgrade
 echo "install dependencies..."
 sudo apt-get install -y  mariadb-client mariadb-server php7.0-mcrypt php7.0-gd php7.0-mbstring php7.0-cli php7.0-xml
 
+echo "setup mysql..."
+sudo mysql_secure_installation
+sudo mysql_install_db
+
+
 echo "install composer..."
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer

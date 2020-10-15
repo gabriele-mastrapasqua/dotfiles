@@ -1,4 +1,3 @@
 # dotfiles
 
-run install.sh to install dependencies.
-
+some dotfiles I use...

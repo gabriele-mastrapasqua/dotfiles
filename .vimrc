@@ -1,4 +1,5 @@
 set mouse=v  		   " enable copy paste 
+set number
 
 filetype plugin indent on  " Load plugins according to detected filetype.
 syntax on                  " Enable syntax highlighting.

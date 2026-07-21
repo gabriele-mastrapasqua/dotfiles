@@ -39,21 +39,24 @@ git clone https://github.com/tmux-plugins/tmux-resurrect "$TPM_DIR/tmux-resurrec
 git clone https://github.com/tmux-plugins/tmux-continuum "$TPM_DIR/tmux-continuum" 2>/dev/null || true
 echo "  → ✓ Done"
 
-# 5. Install system stats daemon
+# 5. Install tmux scripts (status daemon + notification tester)
 echo ""
-echo "==> Installing tmux status daemon..."
+echo "==> Installing tmux scripts..."
 install -m 755 "$DOTFILES_DIR/.tmux/status-daemon.sh" "$HOME/.tmux/status-daemon.sh"
+install -m 755 "$DOTFILES_DIR/.tmux/notify-test.sh" "$HOME/.tmux/notify-test.sh"
 echo "  → ✓ Done"
 
-# 6. Enable tmux auto-rename on folder change (zsh hook)
+# 6. Enable tmux zsh hooks (auto-rename + long command notification)
 echo ""
-echo "==> Adding tmux auto-rename hook to ~/.zshrc..."
-if ! grep -q 'tmux-window-name.zsh' ~/.zshrc 2>/dev/null; then
-  printf '\n# Tmux: auto-rename tab to current folder\nsource "%s/zsh/tmux-window-name.zsh"\n' "$DOTFILES_DIR" >> ~/.zshrc
-  echo "  → ✓ Added"
-else
-  echo "  → Already present"
-fi
+echo "==> Adding tmux zsh hooks to ~/.zshrc..."
+for hook in tmux-window-name.zsh notify-long-cmd.zsh; do
+  if ! grep -q "$hook" ~/.zshrc 2>/dev/null; then
+    printf '\n# Tmux: %s\nsource "%s/zsh/%s"\n' "$hook" "$DOTFILES_DIR" "$hook" >> ~/.zshrc
+    echo "  → ✓ Added $hook"
+  else
+    echo "  → $hook already present"
+  fi
+done
 
 echo ""
 echo "=== ✅ Done! Close and reopen Ghostty. ==="

@@ -1,24 +1,25 @@
 # dotfiles
 
-La mia configurazione essenziale per macOS Apple Silicon: terminale, tmux,
-Neovim e qualche automazione utile per lavorare senza perdere il contesto.
+My minimal macOS Apple Silicon setup for terminal work: Ghostty, tmux,
+Neovim, and a few useful automations to keep everything in context.
 
 ## ✨ Features
 
-- **Ghostty** avvia automaticamente una sessione tmux persistente chiamata `main`.
-- **tmux-resurrect + tmux-continuum** salvano la sessione ogni 5 minuti e la
-  ripristinano al riavvio.
-- Finestre tmux nominate automaticamente con la cartella corrente.
-- Status bar in alto con utilizzo di **CPU, GPU, RAM e disco**, aggiornata ogni
-  3 secondi.
-- Notifiche macOS quando un comando emette un bell o dura più di 10 secondi.
-- Configurazione Neovim minimale: numeri di riga, ricerca incrementale, split
-  intuitivi, indentazione a 4 spazi e wrapping per Markdown.
-- Mouse tmux abilitato e supporto True Color.
+- **Ghostty** automatically starts a persistent tmux session named `main`.
+- **tmux-resurrect + tmux-continuum** save the session every 5 minutes and
+  restore it after a restart.
+- tmux windows are automatically named after the current directory.
+- A top status bar shows **CPU, GPU, RAM, and disk usage**, refreshed every
+  3 seconds.
+- macOS notifications when a command rings the bell or runs for more than 10
+  seconds.
+- Minimal Neovim setup with line numbers, incremental search, intuitive splits,
+  4-space indentation, and Markdown wrapping.
+- tmux mouse support and True Color enabled.
 
-## 🚀 Installazione
+## 🚀 Installation
 
-> Pensato per macOS con Homebrew in `/opt/homebrew`.
+> Designed for macOS with Homebrew installed at `/opt/homebrew`.
 
 ```bash
 git clone https://github.com/gabriele-mastrapasqua/dotfiles.git ~/.dotfiles
@@ -26,72 +27,73 @@ cd ~/.dotfiles
 ./mac/setup.sh
 ```
 
-Lo script installa Homebrew se necessario, installa tool e app, crea i symlink
-per le configurazioni, installa i plugin tmux e aggiunge gli hook a `~/.zshrc`.
+The setup script installs Homebrew if needed, installs the tools and apps,
+creates symlinks for the configuration files, installs the tmux plugins, and
+adds the zsh hooks to `~/.zshrc`.
 
-Alla fine, chiudi e riapri Ghostty.
+When it is done, close and reopen Ghostty.
 
-## 📦 Cosa installa
+## 📦 What gets installed
 
-**CLI**
+**CLI tools**
 
 `wget` · `tree` · `neovim` · `grep` · `openssh` · `git` · `git-lfs` ·
 `the_silver_searcher` · `tmux`
 
-**App**
+**Apps**
 
 `Ghostty` · `Zed`
 
-In più vengono configurati gli alias `vim` e `vi` per usare `nvim`.
+The setup also aliases `vim` and `vi` to `nvim`.
 
-## ⌨️ tmux keybinds
+## ⌨️ Custom tmux keybinds
 
-Il prefix tmux resta quello di default: **`Ctrl+b`**.
+The tmux prefix remains the default: **`Ctrl+b`**.
 
-### Finestre
+### Windows
 
-| Shortcut | Azione |
+| Shortcut | Action |
 | --- | --- |
-| `Cmd+t` | Nuova finestra nella cartella corrente |
-| `Ctrl+t` | Nuova finestra nella cartella corrente |
-| `Cmd+w` | Chiude la finestra corrente |
-| `Ctrl+Tab` | Finestra successiva |
-| `Ctrl+Shift+Tab` | Finestra precedente |
-| `Alt+←` / `Alt+→` | Finestra precedente / successiva |
-| `Alt+1` … `Alt+9` | Vai alla finestra indicata |
+| `Cmd+t` | Open a new window in the current directory |
+| `Ctrl+t` | Open a new window in the current directory |
+| `Cmd+w` | Close the current window |
+| `Ctrl+Tab` | Next window |
+| `Ctrl+Shift+Tab` | Previous window |
+| `Alt+←` / `Alt+→` | Previous / next window |
+| `Alt+1` … `Alt+9` | Jump to the selected window |
 
-### Sessione
+### Sessions
 
-| Shortcut | Azione |
+| Shortcut | Action |
 | --- | --- |
-| `Ctrl+b c` | Nuova finestra |
-| `Ctrl+b Ctrl+s` | Salva la sessione subito |
-| `Ctrl+b Ctrl+r` | Ripristina la sessione |
-| `Ctrl+b d` | Scollega la sessione |
-| `Ctrl+b ?` | Mostra tutti i keybind |
+| `Ctrl+b c` | Open a new window |
+| `Ctrl+b Ctrl+s` | Save the session immediately |
+| `Ctrl+b Ctrl+r` | Restore the session |
+| `Ctrl+b d` | Detach from the session |
+| `Ctrl+b ?` | Show all keybinds |
 
-## 🔔 Notifiche
+## 🔔 Notifications
 
-Per provare le notifiche direttamente da una finestra tmux:
+To test notifications from inside a tmux window:
 
 ```bash
 ~/.tmux/notify-test.sh
 ```
 
-Se non compare nulla, abilita le notifiche per Ghostty in **Impostazioni di
-Sistema → Notifiche**.
+If nothing appears, enable notifications for Ghostty in **System Settings →
+Notifications**.
 
-## 📁 Struttura
+## 📁 Structure
 
 ```text
-ghostty/   configurazione Ghostty
-mac/       script di installazione e pacchetti Homebrew
-nvim/      configurazione Neovim
-zsh/       hook per nomi finestre e notifiche dei comandi lunghi
-.tmux.conf configurazione tmux
+ghostty/    Ghostty configuration
+mac/        installation and Homebrew scripts
+nvim/       Neovim configuration
+zsh/        window naming and long-command notification hooks
+.tmux.conf  tmux configuration
 ```
 
-## 🔄 Aggiornare
+## 🔄 Updating
 
 ```bash
 cd ~/.dotfiles

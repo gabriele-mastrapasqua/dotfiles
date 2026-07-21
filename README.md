@@ -12,7 +12,7 @@ Then close and reopen Ghostty.
 ## What's inside
 
 | File | Purpose |
-|---|---|---|
+|---|---|
 | `mac/setup.sh` | Installs Homebrew → packages → symlinks |
 | `mac/brew.sh` | CLI tools + GUI apps (neovim, tmux, ghostty, zed, etc.) |
 | `.tmux.conf` | Tmux config with resurrect + continuum, bell notifications, status bar |

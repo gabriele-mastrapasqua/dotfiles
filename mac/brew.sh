@@ -1,40 +1,43 @@
 #!/usr/bin/env bash
 
-# Install command-line tools using Homebrew.
+set -euo pipefail
 
-# Make sure we’re using the latest Homebrew.
+echo "🍺 Updating Homebrew..."
 brew update
+brew upgrade || true   # ignore cask sudo errors (e.g. session-manager-plugin)
 
-# Upgrade any already-installed formulae.
-brew upgrade
-
-# Save Homebrew’s installed location.
-BREW_PREFIX=$(brew --prefix)
-
-
-echo "setup brew..."
-$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
-
-
-echo "install some recent version of common tools..."
+echo "📦 Installing CLI tools..."
 brew install wget
 brew install tree
-brew install vim --with-override-system-vi
+brew install neovim
 brew install grep
 brew install openssh
 brew install git
 brew install git-lfs
-
-
-
-echo "installing a better find..."
 brew install the_silver_searcher
+brew install tmux
 
+echo "🖥️ Installing GUI apps (casks)..."
+brew install --cask ghostty
+brew install --cask zed
 
-#echo "install a more modern version of bash..."
-#brew install bash
-#brew install bash-completion2
+echo "🔗 Aliasing vim/vi to nvim..."
+if command -v nvim &>/dev/null; then
+  if ! grep -q 'alias vim=nvim' ~/.zshrc 2>/dev/null; then
+    {
+      echo ''
+      echo '# Alias vim/vi to neovim'
+      echo 'alias vim=nvim'
+      echo 'alias vi=nvim'
+    } >>~/.zshrc
+    echo '  → Added aliases to ~/.zshrc (restart shell or source ~/.zshrc)'
+  else
+    echo '  → Aliases already present in ~/.zshrc'
+  fi
+fi
 
-
-# Remove outdated versions from the cellar.
+echo "🧹 Cleaning up..."
 brew cleanup
+
+echo ""
+echo "✅ Done! Restart your shell or run: source ~/.zshrc"

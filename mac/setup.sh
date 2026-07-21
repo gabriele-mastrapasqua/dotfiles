@@ -39,5 +39,15 @@ git clone https://github.com/tmux-plugins/tmux-resurrect "$TPM_DIR/tmux-resurrec
 git clone https://github.com/tmux-plugins/tmux-continuum "$TPM_DIR/tmux-continuum" 2>/dev/null || true
 echo "  → ✓ Done"
 
+# 5. Enable tmux auto-rename on folder change (zsh hook)
+echo ""
+echo "==> Adding tmux auto-rename hook to ~/.zshrc..."
+if ! grep -q 'tmux-window-name.zsh' ~/.zshrc 2>/dev/null; then
+  printf '\n# Tmux: auto-rename tab to current folder\nsource "%s/zsh/tmux-window-name.zsh"\n' "$DOTFILES_DIR" >> ~/.zshrc
+  echo "  → ✓ Added"
+else
+  echo "  → Already present"
+fi
+
 echo ""
 echo "=== ✅ Done! Close and reopen Ghostty. ==="

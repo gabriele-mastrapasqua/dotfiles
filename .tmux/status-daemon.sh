@@ -37,8 +37,10 @@ while true; do
 
 	gpu=$(ioreg -rc "IOAccelerator" -l 2>/dev/null | grep -o 'Device Utilization %"=[0-9]*' | grep -o '[0-9]*$' || echo "?")
 
-	ram_free=$(memory_pressure | grep 'System-wide memory free percentage' | grep -o '[0-9]*' || echo "?")
-	ram=$((100 - ram_free))
+	psize=$(vm_stat | awk '/page size of/ {print $8}')
+	total_pages=$((MEM_TOTAL / psize))
+	eval $(vm_stat | awk '/^Pages active/ {a=int($NF)} /^Pages wired/ {w=int($NF)} END {printf "a=%d w=%d", a, w}')
+	ram=$(( (a + w) * 100 / total_pages ))
 
 	used=$(df / | awk 'NR==2{gsub(/[^0-9]/, "", $5); print $5}')
 	dsk=$((100 - used))

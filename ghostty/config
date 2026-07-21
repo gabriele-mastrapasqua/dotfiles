@@ -4,6 +4,9 @@ command = /opt/homebrew/bin/tmux new-session -A -s main
 # Cmd+T → new tmux tab (overrides Ghostty default "new tab")
 keybind = cmd+t=text:\x02c
 
+# Cmd+W → close tmux tab/window (overrides Ghostty default "close window")
+keybind = cmd+w=text:\x02&
+
 # Ctrl+Tab → tmux next/prev window (sends Ctrl+b n / Ctrl+b p)
 keybind = ctrl+tab=text:\x02n
 keybind = ctrl+shift+tab=text:\x02p

@@ -39,7 +39,13 @@ git clone https://github.com/tmux-plugins/tmux-resurrect "$TPM_DIR/tmux-resurrec
 git clone https://github.com/tmux-plugins/tmux-continuum "$TPM_DIR/tmux-continuum" 2>/dev/null || true
 echo "  → ✓ Done"
 
-# 5. Enable tmux auto-rename on folder change (zsh hook)
+# 5. Install system stats daemon
+echo ""
+echo "==> Installing tmux status daemon..."
+install -m 755 "$DOTFILES_DIR/.tmux/status-daemon.sh" "$HOME/.tmux/status-daemon.sh"
+echo "  → ✓ Done"
+
+# 6. Enable tmux auto-rename on folder change (zsh hook)
 echo ""
 echo "==> Adding tmux auto-rename hook to ~/.zshrc..."
 if ! grep -q 'tmux-window-name.zsh' ~/.zshrc 2>/dev/null; then

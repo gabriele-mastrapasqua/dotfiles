@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-PIDFILE="${TMPDIR:-/tmp}/tmux_status_daemon.pid"
-TMPFILE="${TMPDIR:-/tmp}/tmux_status"
+PIDFILE="/tmp/tmux_status_daemon.pid"
+TMPFILE="/tmp/tmux_status"
 SLEEP=3
 NCORES=$(sysctl -n hw.ncpu)
 MEM_TOTAL=$(sysctl -n hw.memsize)
@@ -37,7 +37,8 @@ while true; do
 
 	gpu=$(ioreg -rc "IOAccelerator" -l 2>/dev/null | grep -o 'Device Utilization %"=[0-9]*' | grep -o '[0-9]*$' || echo "?")
 
-	ram=$(memory_pressure | grep 'System-wide memory free percentage' | grep -o '[0-9]*' || echo "?")
+	ram_free=$(memory_pressure | grep 'System-wide memory free percentage' | grep -o '[0-9]*' || echo "?")
+	ram=$((100 - ram_free))
 
 	used=$(df / | awk 'NR==2{gsub(/[^0-9]/, "", $5); print $5}')
 	dsk=$((100 - used))

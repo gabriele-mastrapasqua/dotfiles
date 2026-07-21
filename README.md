@@ -12,12 +12,15 @@ Then close and reopen Ghostty.
 ## What's inside
 
 | File | Purpose |
-|---|---|
+|---|---|---|
 | `mac/setup.sh` | Installs Homebrew → packages → symlinks |
 | `mac/brew.sh` | CLI tools + GUI apps (neovim, tmux, ghostty, zed, etc.) |
-| `.tmux.conf` | Tmux config with resurrect + continuum (auto-save tabs) |
+| `.tmux.conf` | Tmux config with resurrect + continuum, bell notifications, status bar |
+| `.tmux/status-daemon.sh` | Background daemon: CPU, GPU, RAM, Disk % in tmux status bar |
+| `.tmux/notify-test.sh` | Tester for tmux bell → macOS notification pipeline |
 | `ghostty/config` | Ghostty: auto-starts tmux, remaps Cmd+T/W, Ctrl+Tab |
 | `zsh/tmux-window-name.zsh` | Zsh hooks to auto-rename tabs to current folder |
+| `zsh/notify-long-cmd.zsh` | Zsh hooks: bell + macOS notification on commands >10s |
 | `nvim/init.lua` | Neovim config (ported from .vimrc) |
 | `.vimrc` | Kept for compatibility |
 
@@ -86,6 +89,34 @@ Tabs show the **last folder name** of your current working directory (e.g. `dotf
 The name updates **instantly** when you `cd` to another folder.
 
 Powered by `zsh/tmux-window-name.zsh` (installed via setup.sh).
+
+### System stats in status bar
+
+The top-right corner of the tmux status bar shows live system usage:
+
+```
+CPU 12%  GPU 5%  RAM 45%  DSK 32%
+```
+
+Updated every 3s by `~/.tmux/status-daemon.sh` (background process launched by tmux).
+
+### Notifications (bell → macOS popup)
+
+When a process rings the terminal bell, tmux triggers:
+
+1. **macOS notification** popup via Ghostty icon (top-right)
+2. **Ghostty icon bounce** in the dock
+3. **Tab turns red** in the status bar until you switch to it
+
+The red tab indicator uses Catppuccin red (`#f38ba8`) — so you can see which tab has pending output at a glance.
+
+Test it with `~/.tmux/notify-test.sh`.
+
+### Auto-notify on long commands
+
+`zsh/notify-long-cmd.zsh` rings the bell automatically when any command runs longer than **10 seconds** (e.g. build, test, deploy, opencode, claude code, install).
+
+No per-command config needed — every long-running CLI tool gets the same treatment.
 
 ## Installed packages
 

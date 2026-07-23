@@ -28,6 +28,8 @@ mkdir -p ~/.config/nvim
 ln -sf "$DOTFILES_DIR/nvim/init.lua" ~/.config/nvim/init.lua
 mkdir -p ~/.config/ghostty
 ln -sf "$DOTFILES_DIR/ghostty/config" ~/.config/ghostty/config
+# Fix HOME_DIR placeholder in ghostty config
+sed -i '' "s|HOME_DIR|$HOME|" ~/.config/ghostty/config 2>/dev/null || true
 
 # 4. Install tmux plugins (TPM + resurrect + continuum)
 echo ""
@@ -46,10 +48,30 @@ install -m 755 "$DOTFILES_DIR/.tmux/status-daemon.sh" "$HOME/.tmux/status-daemon
 install -m 755 "$DOTFILES_DIR/.tmux/notify-test.sh" "$HOME/.tmux/notify-test.sh"
 echo "  → ✓ Done"
 
-# 6. Enable tmux zsh hooks (auto-rename + long command notification)
+# 6. Install tmux-attach-or-create helper (used by Ghostty to attach to persistent tmux server)
+echo ""
+echo "==> Installing tmux-attach-or-create helper..."
+mkdir -p "$HOME/.local/bin"
+install -m 755 "$DOTFILES_DIR/bin/tmux-attach-or-create" "$HOME/.local/bin/tmux-attach-or-create"
+echo "  → ✓ $HOME/.local/bin/tmux-attach-or-create"
+
+# 7. Create tmux-resurrect save directory
+echo ""
+echo "==> Creating tmux-resurrect save directory..."
+mkdir -p "$HOME/.tmux/resurrect"
+echo "  → ✓ $HOME/.tmux/resurrect"
+
+# 7. Install launchd plist for persistent tmux server (survives Ghostty crash)
+echo ""
+echo "==> Installing launchd plist for tmux persistence..."
+cp "$DOTFILES_DIR/mac/com.mitchellh.ghostty.tmux.plist" "$HOME/Library/LaunchAgents/com.mitchellh.ghostty.tmux.plist"
+launchctl load "$HOME/Library/LaunchAgents/com.mitchellh.ghostty.tmux.plist" 2>/dev/null || true
+echo "  → ✓ tmux server will persist independently of Ghostty"
+
+# 8. Enable tmux zsh hooks (long command notification)
 echo ""
 echo "==> Adding tmux zsh hooks to ~/.zshrc..."
-for hook in tmux-window-name.zsh notify-long-cmd.zsh; do
+for hook in notify-long-cmd.zsh; do
   if ! grep -q "$hook" ~/.zshrc 2>/dev/null; then
     printf '\n# Tmux: %s\nsource "%s/zsh/%s"\n' "$hook" "$DOTFILES_DIR" "$hook" >> ~/.zshrc
     echo "  → ✓ Added $hook"

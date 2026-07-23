@@ -1,5 +1,5 @@
 font-size = 15
-command = /opt/homebrew/bin/tmux new-session -A -s main
+command = /Users/gabrielemastrapasqua/.local/bin/tmux-attach-or-create
 
 # Cmd+T → new tmux tab (overrides Ghostty default "new tab")
 keybind = cmd+t=text:\x02c

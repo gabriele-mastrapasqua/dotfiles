@@ -1,8 +1,3 @@
 if [ -n "$TMUX" ]; then
-  chpwd() {
-    tmux rename-window "${PWD##*/}"
-  }
-  precmd() {
-    tmux rename-window "${PWD##*/}"
-  }
+  # window name is handled by tmux automatic-rename-format '#{b:pane_current_path}'
 fi

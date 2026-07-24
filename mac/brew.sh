@@ -15,8 +15,6 @@ brew install openssh
 brew install git
 brew install git-lfs
 brew install the_silver_searcher
-brew install tmux
-brew install terminal-notifier
 
 echo "🖥️ Installing GUI apps (casks)..."
 brew install --cask ghostty

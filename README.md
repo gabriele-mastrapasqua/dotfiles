@@ -1,25 +1,22 @@
 # dotfiles
 
-My minimal macOS Apple Silicon setup for terminal work: Ghostty, tmux,
-Neovim, and a few useful automations to keep everything in context.
+Minimal macOS Apple Silicon setup for terminal work: Ghostty, Neovim, and a
+few useful shell automations.
 
-## ✨ Features
+## Features
 
-- **Ghostty** automatically starts a persistent tmux session named `main`.
-- **tmux-resurrect + tmux-continuum** save the session every 5 minutes and
-  restore it after a restart.
-- tmux windows are automatically named after the current directory.
-- A top status bar shows **CPU, GPU, RAM, and disk usage**, refreshed every
-  3 seconds.
-- macOS notifications when a command rings the bell or runs for more than 10
-  seconds.
+- Native Ghostty terminal sessions.
+- Ghostty restores tabs, splits, window geometry, and working directories with
+  `window-save-state = always`.
+- A wider 140-column default window and 15pt font.
+- Ghostty bell/tab attention plus a macOS notification after commands running
+  for at least 10 seconds.
 - Minimal Neovim setup with line numbers, incremental search, intuitive splits,
   4-space indentation, and Markdown wrapping.
-- tmux mouse support and True Color enabled.
 
-## 🚀 Installation
+## Installation
 
-> Designed for macOS with Homebrew installed at `/opt/homebrew`.
+Designed for macOS with Homebrew installed at `/opt/homebrew`:
 
 ```bash
 git clone https://github.com/gabriele-mastrapasqua/dotfiles.git ~/.dotfiles
@@ -27,73 +24,50 @@ cd ~/.dotfiles
 ./mac/setup.sh
 ```
 
-The setup script installs Homebrew if needed, installs the tools and apps,
-creates symlinks for the configuration files, installs the tmux plugins, and
-adds the zsh hooks to `~/.zshrc`.
+The setup script installs the tools and apps and creates the configuration
+symlinks. When it is done, close and reopen Ghostty.
 
-When it is done, close and reopen Ghostty.
+Use `DOTFILES_SKIP_BREW=1 ./mac/setup.sh` to apply only configuration changes
+when Homebrew and the packages are already installed.
 
-## 📦 What gets installed
-
-**CLI tools**
+## Packages
 
 `wget` · `tree` · `neovim` · `grep` · `openssh` · `git` · `git-lfs` ·
-`the_silver_searcher` · `tmux`
+`the_silver_searcher`
 
-**Apps**
-
-`Ghostty` · `Zed`
+Apps: `Ghostty` · `Zed`.
 
 The setup also aliases `vim` and `vi` to `nvim`.
 
-## ⌨️ Custom tmux keybinds
+## Notifications
 
-The tmux prefix remains the default: **`Ctrl+b`**.
-
-### Windows
-
-| Shortcut | Action |
-| --- | --- |
-| `Cmd+t` | Open a new window in the current directory |
-| `Ctrl+t` | Open a new window in the current directory |
-| `Cmd+w` | Close the current window |
-| `Ctrl+Tab` | Next window |
-| `Ctrl+Shift+Tab` | Previous window |
-| `Alt+←` / `Alt+→` | Previous / next window |
-| `Alt+1` … `Alt+9` | Jump to the selected window |
-
-### Sessions
-
-| Shortcut | Action |
-| --- | --- |
-| `Ctrl+b c` | Open a new window |
-| `Ctrl+b Ctrl+s` | Save the session immediately |
-| `Ctrl+b Ctrl+r` | Restore the session |
-| `Ctrl+b d` | Detach from the session |
-| `Ctrl+b ?` | Show all keybinds |
-
-## 🔔 Notifications
-
-To test notifications from inside a tmux window:
+Ghostty owns the notification path. Its `bell,notify` actions update the
+Dock/tab attention state and request a macOS notification after a command runs
+for at least 10 seconds:
 
 ```bash
-~/.tmux/notify-test.sh
+sleep 11
 ```
 
 If nothing appears, enable notifications for Ghostty in **System Settings →
-Notifications**.
+Notifications**, then reload Ghostty with `Cmd+Shift+,` or restart it.
 
-## 📁 Structure
+## Session state
+
+Ghostty can remember the terminal layout, tabs, paths, and window geometry, but
+it does not preserve live processes after a hard crash. A separate tab-save
+script can be added later if that limitation becomes important.
+
+## Structure
 
 ```text
 ghostty/    Ghostty configuration
 mac/        installation and Homebrew scripts
 nvim/       Neovim configuration
-zsh/        window naming and long-command notification hooks
-.tmux.conf  tmux configuration
+zsh/        shell configuration snippets
 ```
 
-## 🔄 Updating
+## Updating
 
 ```bash
 cd ~/.dotfiles

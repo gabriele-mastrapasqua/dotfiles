@@ -76,6 +76,12 @@ command -v "$agent" >/dev/null 2>&1 || {
   exit 127
 }
 
+# headroom wrap doesn't know codex-team; map to codex for the wrap call
+wrap_agent="$agent"
+if [[ "$agent" == "codex-team" ]]; then
+  wrap_agent=codex
+fi
+
 if ((use_headroom)); then
   command -v headroom >/dev/null 2>&1 || {
     echo 'Headroom is not installed.' >&2
@@ -93,7 +99,7 @@ if ((use_headroom)); then
     export HEADROOM_CONTEXT_TOOL=none
   fi
 
-  exec headroom wrap "$agent" -- "$@"
+  exec headroom wrap "$wrap_agent" -- "$@"
 fi
 
 if ((use_rtk)); then

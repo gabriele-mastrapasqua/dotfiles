@@ -13,6 +13,9 @@ few useful shell automations.
   for at least 10 seconds.
 - Minimal Neovim setup with line numbers, incremental search, intuitive splits,
   4-space indentation, and Markdown wrapping.
+- Dev toolchain installer: nvm + Node 23, uv, Claude Code, Codex CLI, OpenCode,
+  Pi, Headroom (via uv), RTK.
+- `ai` launcher — opt-in wrapping with `--headroom`/`--rtk` for any agent.
 
 ## Installation
 
@@ -61,10 +64,53 @@ script can be added later if that limitation becomes important.
 ## Structure
 
 ```text
-ghostty/    Ghostty configuration
-mac/        installation and Homebrew scripts
-nvim/       Neovim configuration
-zsh/        shell configuration snippets
+ghostty/            Ghostty configuration
+mac/                installation scripts
+  setup.sh            main entry point (Homebrew, dotfiles, dev tools, ai launcher)
+  brew.sh             Homebrew packages and apps
+  devtools.sh         AI coding toolchain (nvm, uv, Claude, Codex, OpenCode, Pi, Headroom, RTK)
+  ai-launcher.sh      ai wrapper (opt-in headroom/rtk per agent)
+nvim/               Neovim configuration
+zsh/                shell configuration snippets
+```
+
+## AI Launcher
+
+The `ai` command wraps coding agents with optional Headroom and RTK:
+
+```bash
+ai claude                          # plain agent
+ai codex
+ai opencode
+ai pi
+ai codex-team                      # custom Codex variant — setup at https://github.com/gabriele-mastrapasqua/codex-lean-team
+
+ai -H claude                       # with Headroom only
+ai -H codex
+ai -H opencode
+
+ai -H -R claude                    # Headroom + RTK
+ai -H -R codex
+ai -H -R opencode
+
+ai -H -R claude -- --model sonnet  # pass agent flags after --
+```
+
+`ai --help` lists all options.
+
+### Analytics & stats
+
+```bash
+headroom doctor              # health check
+headroom perf                # performance metrics
+headroom dashboard           # web dashboard (if available)
+headroom stats               # CLI stats summary
+
+rtk gain                     # token savings report
+rtk gain --graph             # ASCII chart
+rtk gain --history           # historical trend
+rtk gain --daily             # per-day breakdown
+rtk gain --all --format json # machine-readable export
 ```
 
 ## Updating

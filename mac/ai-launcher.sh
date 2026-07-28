@@ -138,8 +138,8 @@ if ((use_headroom)); then
     export HEADROOM_CONTEXT_TOOL=none
   fi
 
-  # start proxy in background
-  headroom proxy --port "$PROXY_PORT" &
+  # start proxy in background (token mode for compression, cache mode for prefix caching)
+  headroom proxy --port "$PROXY_PORT" --mode token --target-ratio 0.4 &
   HR_PID=$!
 
   # wait for proxy (up to 10s)

@@ -42,7 +42,7 @@ fi
 
 echo "==> Installing Headroom"
 if ! command -v headroom >/dev/null 2>&1; then
-  uv tool install --python 3.13 "headroom-ai[all]"
+  uv tool install --python 3.13 "headroom-ai[all,ml]"
 fi
 
 echo "==> Installing RTK"

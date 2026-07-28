@@ -139,15 +139,21 @@ if ((use_headroom)); then
   fi
 
   # start proxy in background
-  headroom proxy --port "$PROXY_PORT" &>/dev/null &
+  headroom proxy --port "$PROXY_PORT" &
   HR_PID=$!
-  sleep 2
 
-  # verify proxy is up
-  if ! curl -sf "http://127.0.0.1:$PROXY_PORT/livez" >/dev/null 2>&1; then
-    echo "headroom proxy failed to start" >&2
-    exit 1
-  fi
+  # wait for proxy (up to 10s)
+  for i in 1 2 3 4 5 6 7 8 9 10; do
+    sleep 1
+    if curl -sf "http://127.0.0.1:$PROXY_PORT/livez" >/dev/null 2>&1; then
+      break
+    fi
+    if (( i == 10 )); then
+      echo "headroom proxy failed to start (port $PROXY_PORT)" >&2
+      kill "$HR_PID" 2>/dev/null || true
+      exit 1
+    fi
+  done
 
   # point the agent at the proxy
   export OPENAI_BASE_URL="http://127.0.0.1:$PROXY_PORT/v1"

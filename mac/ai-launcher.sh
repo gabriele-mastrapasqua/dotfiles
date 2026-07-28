@@ -142,14 +142,18 @@ if ((use_headroom)); then
   headroom proxy --port "$PROXY_PORT" --mode token --target-ratio 0.4 --intercept-tool-results &
   HR_PID=$!
 
-  # wait for proxy (up to 10s)
-  for i in 1 2 3 4 5 6 7 8 9 10; do
+  # wait for proxy (up to 20s)
+  for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
     sleep 1
+    if ! kill -0 "$HR_PID" 2>/dev/null; then
+      echo "headroom proxy crashed during startup (port $PROXY_PORT)" >&2
+      exit 1
+    fi
     if curl -sf "http://127.0.0.1:$PROXY_PORT/livez" >/dev/null 2>&1; then
       break
     fi
-    if (( i == 10 )); then
-      echo "headroom proxy failed to start (port $PROXY_PORT)" >&2
+    if (( i == 20 )); then
+      echo "headroom proxy not ready after 20s (port $PROXY_PORT)" >&2
       kill "$HR_PID" 2>/dev/null || true
       exit 1
     fi

@@ -159,6 +159,11 @@ if ((use_headroom)); then
   export OPENAI_BASE_URL="http://127.0.0.1:$PROXY_PORT/v1"
   export ANTHROPIC_BASE_URL="http://127.0.0.1:$PROXY_PORT"
 
+  # codex needs --config openai_base_url (env var is not enough)
+  if [[ "$actual_bin" == "codex" ]]; then
+    extra_args+=(--config "openai_base_url=http://127.0.0.1:$PROXY_PORT/v1")
+  fi
+
   # --- TEMPORARY MCP registration for codex ---
   if [[ "$agent" == codex* ]] && [[ -f "$CODEX_CONFIG" ]]; then
     CODEX_CONFIG_BACKUP="$(mktemp)"

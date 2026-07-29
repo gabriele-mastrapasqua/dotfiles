@@ -32,17 +32,9 @@ ln -sf "$DOTFILES_DIR/nvim/init.lua" ~/.config/nvim/init.lua
 mkdir -p ~/.config/ghostty
 ln -sf "$DOTFILES_DIR/ghostty/config" ~/.config/ghostty/config
 
-# 4. Install dev tools (uv, Claude Code, Codex, OpenCode, Pi, Headroom, RTK, …)
+# 4. Install dev tools (uv, Claude Code, Codex, OpenCode, Pi)
 echo ""
 "$DOTFILES_DIR/mac/devtools.sh"
-
-# 5. Install ai launcher
-echo ""
-echo "==> Installing ai launcher..."
-mkdir -p "$HOME/.local/bin"
-AI_VERSION="$(cd "$DOTFILES_DIR" && git show -s --format='%cd-git-%h' --date=format:'%Y-%m-%d' HEAD 2>/dev/null || echo 'unknown')"
-sed "s/@VERSION@/$AI_VERSION/" "$DOTFILES_DIR/mac/ai-launcher.sh" > "$HOME/.local/bin/ai"
-chmod +x "$HOME/.local/bin/ai"
 
 echo ""
 echo "=== ✅ Done! Close and reopen Ghostty. Native mode is active. ==="

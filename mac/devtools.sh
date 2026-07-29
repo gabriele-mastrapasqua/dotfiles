@@ -40,25 +40,12 @@ if ! command -v pi >/dev/null 2>&1; then
   curl -fsSL https://pi.dev/install.sh | sh
 fi
 
-echo "==> Installing Headroom"
-if ! command -v headroom >/dev/null 2>&1; then
-  uv tool install --python 3.13 "headroom-ai[all,ml]"
-fi
-
-echo "==> Installing RTK"
-if ! command -v rtk >/dev/null 2>&1; then
-  if ! command -v brew >/dev/null 2>&1; then
-    echo "ERROR: Homebrew is required to install RTK with the preferred method." >&2
-    exit 1
-  fi
-  brew install rtk
-fi
 echo "==> Ensuring uv tools are on PATH"
 uv tool update-shell
 
 echo
 echo "Installed versions:"
-for cmd in uv claude codex opencode pi headroom rtk; do
+for cmd in uv claude codex opencode pi; do
   if command -v "$cmd" >/dev/null 2>&1; then
     printf "%-10s %s\n" "$cmd" "$(command -v "$cmd")"
   else
